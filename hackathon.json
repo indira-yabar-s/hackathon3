@@ -1,0 +1,9 @@
+{
+  "teamCode": "TEAM-014",
+  "teamName": "Vibe coders profesionales",
+  "members": [
+    { "name": "Gabriel Murillo Machicao", "code": "202510160" },
+    { "name": "Indira Shian Yabar Ramos", "code": "202520029" },
+    { "name": "Rafael Antonio Vargas Portocarrero", "code": "202610126" }
+  ]
+}
