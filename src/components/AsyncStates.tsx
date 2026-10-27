@@ -50,3 +50,15 @@ export function EmptyState({ title, description }: { title: string; description:
     </div>
   );
 }
+
+// 423 LOG_POSE_REQUIRED: el equipo aún no aprobó la inspección del CP3
+export function GrandLineLocked() {
+  return (
+    <div role="alert" className="mx-auto max-w-md rounded-xl border border-amber-500/40 bg-amber-950/30 p-6 text-center">
+      <p className="text-lg font-semibold text-amber-300">Grand Line bloqueado</p>
+      <p className="mt-1 text-slate-300">
+        Esta sección se desbloquea cuando la tripulación aprueba la inspección del Log Pose en Reverse Mountain.
+      </p>
+    </div>
+  );
+}

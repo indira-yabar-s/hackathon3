@@ -21,13 +21,19 @@ export function Layout() {
     <div className="min-h-screen">
       <header className="border-b border-slate-800 bg-slate-900/80">
         <nav className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4">
             <span className="font-bold tracking-wide text-amber-400">Log Pose Console</span>
             <NavLink to="/" end className={linkClass}>
               Dashboard
             </NavLink>
             <NavLink to="/wanted" className={linkClass}>
               Se Busca
+            </NavLink>
+            <NavLink to="/news" className={linkClass}>
+              Noticias
+            </NavLink>
+            <NavLink to="/sagas" className={linkClass}>
+              Sagas
             </NavLink>
           </div>
           <div className="flex items-center gap-3 text-sm">

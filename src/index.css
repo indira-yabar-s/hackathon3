@@ -9,3 +9,70 @@
     @apply bg-slate-950 text-slate-100 antialiased;
   }
 }
+
+/* ── CP5 · Poneglyph: animaciones de la historia ──────────────────────── */
+
+/* Barra de progreso de lectura. Sin soporte de scroll(), JS actualiza --saga-scroll (0 a 1). */
+.saga-progress-bar {
+  transform-origin: left;
+  transform: scaleX(var(--saga-scroll, 0));
+}
+
+@keyframes saga-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes saga-reveal {
+  from { opacity: 0.2; transform: translateY(2.5rem); }
+  to { opacity: 1; transform: none; }
+}
+
+/* CSS Scroll-driven Animations (si el navegador las soporta) */
+@supports (animation-timeline: scroll()) {
+  .saga-progress-bar {
+    animation: saga-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .saga-stage-content {
+    animation: saga-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 35%;
+  }
+}
+
+/* Equivalente sin soporte: IntersectionObserver marca data-visible="true" */
+.saga-reveal-fallback .saga-stage-content {
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.saga-reveal-fallback .saga-stage-content:not([data-visible='true']) {
+  opacity: 0.2;
+  transform: translateY(2.5rem);
+}
+
+/* View Transition entre /sagas y /sagas/:id */
+::view-transition-group(*) {
+  animation-duration: 0.45s;
+}
+
+/* Movimiento reducido: sin animaciones; todo el contenido visible y estático */
+@media (prefers-reduced-motion: reduce) {
+  .saga-progress-bar {
+    animation: none !important;
+    transform: scaleX(var(--saga-scroll, 0));
+  }
+  .saga-stage-content {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

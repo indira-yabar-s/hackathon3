@@ -13,6 +13,7 @@ export interface ApiError {
   traceId: string;
   details?: ApiErrorDetail[];
   retryAfterSeconds?: number;
+  current?: NewsDetail; // solo en 409 NEWS_ALREADY_VERIFIED: la noticia como está ahora
 }
 
 // ── Auth ──────────────────────────────────────────────
@@ -159,4 +160,89 @@ export interface LogPose {
   grandLineUnlocked: boolean;
   unlockedAt: string | null;
   message: string;
+}
+
+// ── Noticias (Grand Line 🔒) ──────────────────────────
+export type NewsType = 'BOUNTY_UPDATE' | 'BATTLE' | 'MARINE_OPERATION' | 'WORLD_GOVERNMENT' | 'DISCOVERY';
+export type NewsPriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+export type NewsStatus = 'RUMOR' | 'CONFIRMED' | 'DEBUNKED';
+export type VerifiedNewsStatus = Exclude<NewsStatus, 'RUMOR'>;
+
+export interface NewsItem {
+  id: string;
+  type: NewsType;
+  priority: NewsPriority;
+  status: NewsStatus;
+  title: string;
+  summary: string;
+  source: string;
+  island: string;
+  relatedWanted: CrewRef | null; // { id, name } del cartel relacionado
+  publishedAt: string;
+  updatedAt: string;
+  verifiedAt: string | null; // null mientras sea RUMOR
+}
+
+export interface NewsDetail extends NewsItem {
+  body: string[]; // párrafos
+}
+
+export interface NewsFeed {
+  items: NewsItem[];
+  nextCursor: string | null; // null = no hay más
+  hasMore: boolean;
+}
+
+export interface NewsFilters {
+  type?: NewsType;
+  priority?: NewsPriority;
+  status?: NewsStatus;
+}
+
+// ── Sagas (Grand Line 🔒) ─────────────────────────────
+export interface Palette {
+  background: string;
+  surface: string;
+  primary: string;
+  accent: string;
+  text: string;
+}
+
+export interface SagaSummary {
+  id: string;
+  order: number;
+  title: string;
+  subtitle: string;
+  synopsis: string;
+  stageCount: number;
+  totalDistanceNm: number;
+  firstIsland: string;
+  lastIsland: string;
+  palette: Palette;
+}
+
+export type StageMetricKey = 'distanceNm' | 'crewMorale' | 'bountyPool' | 'marineThreat';
+
+export interface StageMetric {
+  key: StageMetricKey;
+  label: string;
+  value: number;
+  unit: string;
+}
+
+export interface SagaStage {
+  id: string;
+  order: number; // desde 1
+  slug: string; // único dentro de la saga
+  title: string;
+  narrative: string[];
+  island: { id: string; name: string; x: number; y: number };
+  palette: Palette;
+  metrics: StageMetric[];
+}
+
+export interface SagaStory {
+  saga: SagaSummary & { intro: string };
+  map: { width: number; height: number };
+  stages: SagaStage[];
 }
