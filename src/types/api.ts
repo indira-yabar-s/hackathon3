@@ -102,6 +102,37 @@ export interface WantedSummary {
   updatedAt: string;
 }
 
+export interface WantedDetail extends WantedSummary {
+  age: number;
+  heightCm: number;
+  bio: string;
+  lastSeen: { island: string; seenAt: string };
+  bountyHistory: { amount: number; issuedAt: string }[]; // de la más antigua a la actual
+}
+
+export interface WantedPage {
+  content: WantedSummary[];
+  totalElements: number;
+  totalPages: number; // 0 si no hay resultados
+  page: number; // desde 0
+  size: number;
+}
+
+// Parámetros válidos de GET /wanted (ver features/wanted/params.ts)
+export type WantedSort = 'bounty,desc' | 'name,asc' | 'updatedAt,desc';
+export type WantedPageSize = 10 | 20 | 50;
+export type FruitFilter = FruitType | 'NONE';
+
+export interface WantedQuery {
+  page: number;
+  size: WantedPageSize;
+  sort: WantedSort;
+  status?: WantedStatus;
+  crewId?: string;
+  fruit?: FruitFilter;
+  q?: string;
+}
+
 // ── Dashboard ─────────────────────────────────────────
 export interface DashboardSummary {
   team: Team;

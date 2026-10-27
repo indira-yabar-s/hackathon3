@@ -26,7 +26,9 @@ export function Layout() {
             <NavLink to="/" end className={linkClass}>
               Dashboard
             </NavLink>
-            {/* CP2: agregar aquí <NavLink to="/wanted"> */}
+            <NavLink to="/wanted" className={linkClass}>
+              Se Busca
+            </NavLink>
           </div>
           <div className="flex items-center gap-3 text-sm">
             {team && (

@@ -4,6 +4,8 @@ import { DashboardPage } from './pages/DashboardPage';
 import { LoginPage } from './pages/LoginPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { WantedDetailPage } from './pages/WantedDetailPage';
+import { WantedListPage } from './pages/WantedListPage';
 import { ProtectedRoute } from './routes/ProtectedRoute';
 import { PublicOnlyRoute } from './routes/PublicOnlyRoute';
 
@@ -20,7 +22,8 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
           <Route path="/" element={<DashboardPage />} />
-          {/* CP2: <Route path="/wanted" ... /> y <Route path="/wanted/:id" ... /> */}
+          <Route path="/wanted" element={<WantedListPage />} />
+          <Route path="/wanted/:id" element={<WantedDetailPage />} />
         </Route>
       </Route>
 
